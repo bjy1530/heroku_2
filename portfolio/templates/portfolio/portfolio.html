@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block contents %}
+<h1>포토 폴리오 페이지</h1>
+{% load staticfiles %}
+<img src="{% static 'jiyeon.png'%}" alt="jiyeon">
+
+{% for portfolio in portfolios.all %}
+    <img src="{{portfolio.image.url}}" width=100 height=100 alt="jiyeon">
+    <br />
+    <p>{{portfolio.description}}</p>
+{% endfor %}
+{% endblock%}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+<div class="container">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+{% block contents %}
+
+
+
+        <!-- Default panel contents -->
+        
+        <h3>자유 게시판</h3><hr /><br />
+      
+        <!-- Table -->
+        <table class="table">
+          <tr>
+              <th>title</th>
+              <th>contents</th>
+              <th>pub_date</th>
+          </tr>
+          {%for blog in blogs.all%}
+          <tr>
+              <td>{{blog.title}}</td>
+              <td>{{blog.summary}} <a href="{%url 'detail' blog.id%}">...more</a></td>
+              <td>{{blog.pub_date}}</td>
+          
+          </tr>
+          {%endfor%}
+        </table>
+      </div>
+
+{% endblock%}
