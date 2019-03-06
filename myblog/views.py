@@ -1,16 +1,27 @@
 from django.shortcuts import redirect, render,get_object_or_404
 from .models import Blog
 from django.utils import timezone 
-
 # 동일한 폴더에 있는 models에서 Blog 클래스를 import
+from django.core.paginator import Paginator
+# 페이지 네이션 기능은 장고에 내장되어 있으므로 import
+from .form import BlogPost
 
 # 요청이 들어오면 템플릿페이지로 연결해주는 함수
 def home(request):
     blogs=Blog.objects
     # blogs 변수에 Blog 클래스 객체를 담는다.
-    return render(request,'myblog/home.html', {'blogs':blogs})
-# render()는 3개의 인자까지 받음
-# render() 마지막 인자로는 사전형 객체
+    blog_list=Blog.objects.all()
+    # 블로그 객체 모든 글 들을 대상으로
+    paginator=Paginator(blog_list,3)
+    # 블로그 객체 세개를 한 페이지로 자르기
+    page=request.GET.get('page')
+    # request 된 페이지가 뭔지를 담아내고
+    posts=paginator.get_page(page)
+    # requet된 페이지를 얻어온 뒤 return 해준다.
+    
+    return render(request,'myblog/home.html', {'blogs':blogs,'posts':posts})
+    # render()는 3개의 인자까지 받음
+    # render() 마지막 인자로는 사전형 객체
 
 def detail(request,blog_id):
    
@@ -56,3 +67,13 @@ def create(request):
     # url은 항상 문자열인데 blog.id는 정수임
     # redirect를 쓰기 위해서는
     # from django.shortcuts import redirect, render,get_object_or_404
+'''
+def blogpost(request):
+    # 1. 입력된 내용을 처리하는 기능
+    # 2. 빈 페이지를 띄워주는 기능
+    if request.method=='POST':
+        form=Blog
+    else:
+        form=BlogPost()
+        return render(request,'new.html',{'form':form})
+'''

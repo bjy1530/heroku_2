@@ -17,7 +17,7 @@
               <th>contents</th>
               <th>pub_date</th>
           </tr>
-          {%for blog in blogs.all%}
+          {%for blog in posts%}
           <tr>
               <td>{{blog.title}}</td>
               <td>{{blog.summary}} <a href="{%url 'detail' blog.id%}">...more</a></td>
@@ -26,6 +26,22 @@
           </tr>
           {%endfor%}
         </table>
-      </div>
+   
+{# first previous 3of4 next  last #}
 
-{% endblock%}
+<div classs="container">
+
+  {%if posts.has_previous%}
+  <a href="?page=1">First</a>
+  <a href="?page={{posts.previous_page_number}}">Previous</a>
+  {%endif%}
+  <span>{{posts.number}}</span>
+  <span>of</span>
+  <span>{{posts.paginator.num_pages}}</span>
+
+  {%if posts.has_next%}
+  <a href="?page={{posts.next_page_number}}">Next</a>
+  <a href="?page={{posts.paginator.num_pages}}">Last</a>
+  {%endif%}
+</div>
+{% endblock %}
